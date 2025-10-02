@@ -9,7 +9,7 @@ on:
 
 env:
   DOCKER_IMAGE: springbootreactjs
-  DOCKER_TAG: client0.1
+  DOCKER_TAG: client0.2
   
 jobs:
   Docker:
@@ -28,7 +28,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       
       # Docker 이미지 빌드 및 푸시
-      - name: Build and push Docker image
+      - name: Build and Push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
