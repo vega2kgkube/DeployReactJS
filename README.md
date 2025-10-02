@@ -1,12 +1,37 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+* docker network 목록 확인하기
+    ```
+    docker network ls    
+    ```
 
-Currently, two official plugins are available:
+* MariaDB Run 하기
+``` 
+docker run --name db-svc -d \
+  --net msanet \
+  --net-alias=db-svc \
+  -p 3306:3306 \
+  -e MYSQL_ROOT_PASSWORD='maria' \
+  -e MYSQL_DATABASE='boot_db' \
+  -e MYSQL_USER='boot' \
+  -e MYSQL_PASSWORD='boot' \
+  -e MYSQL_ROOT_HOST='%' \
+  mariadb:10.11.8 \
+  --character-set-server=utf8mb4 \
+  --collation-server=utf8mb4_unicode_ci
+ ```
+* SpringBoot Run 하기
+``` 
+docker run --name myboot-svc -d -p 8080:8080 --net msanet --net-alias=myboot-svc \
+-e DB_HOST='db-svc' \
+-e DB_PORT='3306' \
+-e DB_DATABASE='boot_db' \
+-e DB_USERNAME='boot' \
+-e DB_PASSWORD='boot' \
+myuser/springbootreactjs:0.1
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* Reactjs Run 하기
+```
+docker run --name react-svc -d -p 80:80 --net msanet --net-alias=react-svc myuser/springbootreactjs:client0.1
+```
